@@ -47,7 +47,7 @@ local TutorialText = {
     [1] = "Craft a Knight (move pawns to the Combine slots)",
     [2] = "Checkmate/Stalemate/Capture the Black King",
     [3] = "Collect your materials",
-    [4] = "Buy the Knight Recipe, Bishop Blueprint, and Piece Tokens\n (Hint: Upcoming bosses, their abilities, and when they appear show up in the Shop)",
+    [4] = "Buy the Knight Recipe, Bishop Blueprint, and Piece Tokens",
     [5] = "Enter the Board Editor",
     [6] = "Sell a Pawn (get 1 token)",
     [7] = 'Select "Knight" in the Palette',
@@ -1323,7 +1323,17 @@ local function boardDraw()
     if combinedAlready == 0 then
         love.graphics.printf("(out of combines)", combineButton.x+combineOffset-100, 50 + 2*TILE*1.5 + 10, 200, "center")
     elseif combinedAlready > 1 then
-        love.graphics.printf("(" .. combinedAlready .. " Combines left)", combineButton.x+combineOffset-100, 300 + 2*TILE*1.5 + 10, 200, "center")
+        if combinesResetEveryTurn and (currentBoss == nil or currentBoss.combinesRefresh ~= false) then
+            love.graphics.printf("(" .. combinedAlready .. " Combines left this turn)", combineButton.x+combineOffset-150, 300 + 2*TILE*1.5 + 10, 300, "center")
+        else
+            love.graphics.printf("(" .. combinedAlready .. " Combines left this round)", combineButton.x+combineOffset-150, 300 + 2*TILE*1.5 + 10, 300, "center")
+        end
+    else
+        if combinesResetEveryTurn and (currentBoss == nil or currentBoss.combinesRefresh ~= false) then
+            love.graphics.printf("(1 Combine left this turn)", combineButton.x+combineOffset-150, 300 + 2*TILE*1.5 + 10, 300, "center")
+        else
+            love.graphics.printf("(1 Combine left this round)", combineButton.x+combineOffset-150, 300 + 2*TILE*1.5 + 10, 300, "center")
+        end
     end
     love.graphics.setColor(0,0,1)
     love.graphics.rectangle("fill", combineButton.x+combineOffset-64, 200 + 2*TILE*1.5, 128, 40, 8, 8)
@@ -1446,6 +1456,8 @@ local function boardDraw()
         love.graphics.setFont(balabig)
         love.graphics.setColor(1,0.2,0,1)
         love.graphics.printf("Boss Active: " .. currentBossName, 32, 4, 512, "center")
+        love.graphics.setFont(balafont)
+        love.graphics.printf(currentBossDesc, 0, 560, 800, "center")
     end
     -- Turn text
     love.graphics.setColor(1, 1, 1, 1)
@@ -1754,6 +1766,7 @@ function shopDraw()
     love.graphics.setColor(1, 1, 1)
     local toNextMultipleOf5 = 5 - (Currentround % 5)
     love.graphics.print("Materials: " .. material, 50, 20)
+    love.graphics.print("Tokens: " .. Piecetokens, 50, 40)
     love.graphics.setFont(balabig)
     love.graphics.printf("Shop", 0, 32, 800, "center")
     if inflationActive then
@@ -1865,12 +1878,12 @@ function love.draw()
     end
     if InTutorial and gamestate ~= 'title' then
         love.graphics.setColor(0,0,0,0.7)
-        love.graphics.rectangle("fill", 25, 400, 300, 175, 8, 8)
+        love.graphics.rectangle("fill", 250, 500, 300, 75, 8, 8)
         love.graphics.setFont(balafont)
         love.graphics.setColor(1,1,1,1)
-        love.graphics.printf("Tutorial (" .. TutorialState .. "/10)", 25, 410, 300, "center")
+        love.graphics.printf("Tutorial (" .. TutorialState .. "/10)", 0, 510, 800, "center")
         love.graphics.setFont(smallatro)
-        love.graphics.printf(TutorialText[TutorialState], 40, 430, 270, "left")
+        love.graphics.printf(TutorialText[TutorialState], 270, 530, 270, "left")
     end
     --end drawing stuff to canvas
     love.graphics.setCanvas()
