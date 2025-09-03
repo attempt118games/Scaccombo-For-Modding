@@ -61,6 +61,15 @@ Recipes.defs = {
         desc = {"The strongest piece.", "Costs 16 to place."},
         image = "assets/queen.png",
     },
+    -- START MODDED RECIPES
+
+
+
+
+
+
+
+    --END MODDED RECIPES
 }
 
 return Recipes
