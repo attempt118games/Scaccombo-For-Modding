@@ -11,6 +11,20 @@ local photonegativeShader
 ModLoader = require('modloader')
 material = 0
 TutorialState = 1
+GameVolume = 1
+function changevolume()
+    if GameVolume > 0.75 then
+        GameVolume = 0.75
+    elseif GameVolume > 0.5 then
+        GameVolume = 0.5
+    elseif GameVolume > 0.25 then
+        GameVolume = 0.25
+    elseif GameVolume > 0 then
+        GameVolume = 0
+    elseif GameVolume < 0.01 then
+        GameVolume = 1
+    end
+end
 local BossModifiers
 local validMoves = nil
 local KingAbilities = require('kingabilities')

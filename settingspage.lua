@@ -70,6 +70,15 @@ settingspage.buttons = {
             saveSettings()
             love.event.quit("restart")
         end
+    },
+    {
+        text = 'Change Volume',
+        x = 100, y = 400,
+        w = 200, h = 50,
+        color = {1, 0.5, 0},
+        onClick = function()
+            changevolume()
+        end
     }
 }
 
@@ -92,7 +101,11 @@ function settingspage.draw()
         love.graphics.rectangle('line', btn.x+(outlinesize/2), btn.y+(outlinesize/2), btn.w-outlinesize, btn.h-outlinesize, 4, 4)
         love.graphics.setLineWidth(1)
         love.graphics.setColor(1,1,1)
-        love.graphics.printf(btn.text, btn.x, btn.y + btn.h/4, btn.w, "center")
+        if btn.text == "Change Volume" then
+            love.graphics.printf(btn.text .. " (Currently " .. (GameVolume * 100) .. "%)", btn.x, btn.y + btn.h/4, btn.w, "center")
+        else
+            love.graphics.printf(btn.text, btn.x, btn.y + btn.h/4, btn.w, "center")
+        end
     end
     love.graphics.setColor(1,1,1,0.7)
     love.graphics.printf("Seed: " .. seed, 0, 400, 800, "center")

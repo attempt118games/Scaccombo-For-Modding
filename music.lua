@@ -37,19 +37,25 @@ end
 function Music.update(dt)
     if fadeTimer > 0 then
         fadeTimer = math.max(0, fadeTimer - dt)
-        local t = 1 - (fadeTimer / fadeTime)
+        local t = (1 - (fadeTimer / fadeTime))
 
         if current then
-            current:setVolume(1 - t) -- fade out
+            current:setVolume((1 - t) * GameVolume) -- fade out
         else
-            Titletrack:setVolume(1 - t)
+            Titletrack:setVolume((1 - t) * GameVolume)
         end
         if nextTrack then
-            nextTrack:setVolume(t) -- fade in
+            nextTrack:setVolume(t * GameVolume) -- fade in
             if fadeTimer == 0 then
                 current = nextTrack
                 nextTrack = nil
             end
+        end
+    else
+        if current then
+            current:setVolume(GameVolume)
+        else
+            Titletrack:setVolume(GameVolume)
         end
     end
 end
